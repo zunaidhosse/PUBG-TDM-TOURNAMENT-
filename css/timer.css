@@ -1,0 +1,7 @@
+.timer-display { font-weight:900; text-align:center; font-size:1.25rem; letter-spacing:0.4px; color:#00ffd5; text-shadow:0 0 12px rgba(0,255,213,0.6); animation:pulseGlow 2.2s infinite; }
+.timer-display .cd { display:inline-block; background:rgba(0,255,213,0.12); border:1px solid rgba(0,255,213,0.45); border-radius:10px; padding:6px 10px; margin:4px; }
+@keyframes pulseGlow { 0%,100%{opacity:1} 50%{opacity:0.85} }
+
+.live-badge { position:absolute; top:-16px; left:8px; padding:6px 10px; border-radius:999px; background:#ff2d55; color:#fff; font-weight:900; box-shadow:0 0 14px rgba(255,45,85,0.6); animation:fly 2.8s ease-in-out infinite; z-index:2; }
+@keyframes fly { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+

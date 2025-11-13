@@ -1,0 +1,14 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: #fff; min-height: 100vh; padding-bottom: 70px; }
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+.btn { padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+.btn-primary { background: #3498db; color: white; }
+.btn-primary:hover { background: #2980b9; }
+.btn-filter { background: #34495e; color: white; margin-right: 10px; margin-bottom: 15px; padding: 8px 15px; }
+.btn-filter.active { background: #3498db; }
+
+.empty-message { text-align: center; padding: 20px; color: #95a5a6; font-style: italic; }
+.filter-buttons { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.hidden-match { display: none; }
+

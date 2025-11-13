@@ -1,0 +1,8 @@
+.section { background: rgba(26, 26, 46, 0.8); border-radius: 10px; padding: 20px; margin-bottom: 20px; border: 1px solid #2980b9; display: none; }
+.section.active { display: block; }
+.section-title { color: #3498db; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #3498db; }
+
+/* Cut/Delete Guard Modal */
+.cut-guard-box { background: rgba(26,26,46,0.95); border:1px solid #3498db; border-radius:10px; padding:16px; width: 90%; max-width: 360px; color:#ecf0f1; }
+.cut-guard-input { flex:1; padding:10px; border-radius:6px; border:1px solid #3498db; background: rgba(255,255,255,0.08); color:#fff; }
+

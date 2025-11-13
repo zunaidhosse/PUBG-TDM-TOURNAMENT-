@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUBG TDM Tournament - Admin Panel</title>
+    <meta name="theme-color" content="#1a1a2e">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-section" id="login-section">
+            <h2>🔐 Admin Login</h2>
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="admin-uid">Admin UID</label>
+                    <input type="password" id="admin-uid" placeholder="Enter admin UID">
+                </div>
+                <button class="btn btn-primary" id="login-btn">Login</button>
+                <div id="login-alert"></div>
+            </div>
+        </div>
+
+        <div id="admin-panel" class="hidden">
+            <div class="header">
+                <div class="header-buttons">
+                    <button class="header-btn helpline-btn" onclick="window.open('https://zunaidhosse.github.io/My-contact/', '_blank')">📞 Helpline</button>
+                    <button class="header-btn share-btn" onclick="window.shareApp()">📱 Share App</button>
+                </div>
+                <h1>🎮 PUBG TDM Tournament - Admin Panel</h1>
+                <p>Manage tournament settings, teams, and matches</p>
+                <button class="btn btn-danger" id="logout-btn">Logout</button>
+            </div>
+
+            <div id="alert-container"></div>
+
+            <div class="section active" id="dashboard-section">
+                <h2 class="section-title">📊 Dashboard</h2>
+                <div class="registrations-list" id="stats-grid">
+                    <div class="registration-card"><h3 id="total-teams">0</h3><p>Total Teams</p></div>
+                    <div class="registration-card"><h3 id="approved-teams">0</h3><p>Approved Teams</p></div>
+                    <div class="registration-card"><h3 id="pending-teams">0</h3><p>Pending Teams</p></div>
+                    <div class="registration-card"><h3 id="total-matches">0</h3><p>Total Matches</p></div>
+                    <div class="registration-card"><h3 id="total-users">0</h3><p>Total Signups</p></div>
+                </div>
+            </div>
+
+            <div class="section" id="banner-section">
+                <h2 class="section-title">🖼️ Banner Management</h2>
+                <div class="form-group">
+                    <label for="banner-url">Tournament Banner Image URL</label>
+                    <input type="text" id="banner-url" placeholder="Paste direct image link (e.g., https://.../banner.jpg)">
+                    <small style="color:#95a5a6; margin-top:6px;">Paste the banner image link and press OK — it will appear at the top of the user app instantly.</small>
+                </div>
+                <button class="btn btn-primary" id="save-banner-btn">OK</button>
+                <div class="banner-preview" id="banner-preview"></div>
+            </div>
+
+            <div class="section" id="screenshot-section">
+                <h2 class="section-title">📸 Screenshot Management</h2>
+                <div class="form-group">
+                    <label for="screenshot-title">Screenshot Title</label>
+                    <input type="text" id="screenshot-title" placeholder="e.g., Round 1 Match 1">
+                </div>
+                <div class="form-group">
+                    <label for="screenshot-url">Screenshot Image URL</label>
+                    <input type="text" id="screenshot-url" placeholder="Enter screenshot image URL">
+                </div>
+                <button class="btn btn-success" id="add-screenshot-btn">Add Screenshot</button>
+                <h3 style="margin-top: 20px;">Published Screenshots</h3>
+                <div id="screenshots-list"></div>
+            </div>
+
+            <div class="section" id="winner-section">
+                <h2 class="section-title">🏆 Winner Management</h2>
+                <div class="form-group">
+                    <label for="winner-title">Winner Title</label>
+                    <input type="text" id="winner-title" placeholder="Champion - Round 1">
+                </div>
+                <div class="form-group">
+                    <label for="winner-image">Winner Image URL</label>
+                    <input type="text" id="winner-image" placeholder="Enter image URL">
+                </div>
+                <div class="form-group">
+                    <label for="winner-description">Description (Optional)</label>
+                    <textarea id="winner-description" rows="3" placeholder="Add description"></textarea>
+                </div>
+                <button class="btn btn-success" id="add-winner-btn">Add Winner</button>
+                <div class="winner-preview" id="winner-preview"></div>
+                <h3 style="margin-top: 20px;">Published Winners</h3>
+                <div id="winners-list"></div>
+            </div>
+            <div class="section" id="timer-section">
+                <h2 class="section-title">⏱️ Timer & Live</h2>
+                <div id="timer-admin-root"></div>
+            </div>
+
+            <div class="section" id="notice-section">
+                <h2 class="section-title">📢 Notice Board</h2>
+                <div class="form-group">
+                    <label for="notice-content">Notice Content</label>
+                    <textarea id="notice-content" rows="4" placeholder="Enter notice content"></textarea>
+                </div>
+                <button class="btn btn-primary" id="save-notice-btn">Save Notice</button>
+                <div class="form-group" style="margin-top:16px;">
+                    <label>🏆 Tournament Prize Pool</label>
+                    <div class="form-group">
+                        <label for="prize-first">🥇 1st Place (UC)</label>
+                        <input type="number" id="prize-first" placeholder="e.g., 500">
+                    </div>
+                    <div class="form-group">
+                        <label for="prize-second">🥈 2nd Place (UC)</label>
+                        <input type="number" id="prize-second" placeholder="e.g., 200">
+                    </div>
+                    <div class="form-group">
+                        <label for="prize-third">🥉 3rd Place (UC)</label>
+                        <input type="number" id="prize-third" placeholder="e.g., 100">
+                    </div>
+                    <button class="btn btn-success" id="save-prize-btn">Save Prize Pool</button>
+                </div>
+                <div id="prize-preview" class="banner-preview" style="height:auto; padding:12px; border:1px dashed #3498db; border-radius:8px; margin-top:12px;"></div>
+            </div>
+
+            <div class="section" id="settings-section">
+                <h2 class="section-title">⚙️ Tournament Settings</h2>
+                <div class="form-group">
+                    <label for="registration-status">Registration Status</label>
+                    <select id="registration-status">
+                        <option value="true">Open</option>
+                        <option value="false">Closed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="team-limit">Team Limit</label>
+                    <select id="team-limit">
+                        <option value="16">16 Teams</option>
+                        <option value="32">32 Teams</option>
+                        <option value="64">64 Teams</option>
+                        <option value="128">128 Teams</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tournament-type">Tournament Type</label>
+                    <select id="tournament-type">
+                        <option value="1v1">1v1</option>
+                        <option value="2v2">2v2</option>
+                        <option value="4v4">4v4</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" id="save-settings-btn">Save Settings</button>
+            </div>
+
+            <div class="section" id="teams-section">
+                <h2 class="section-title">👥 Team Management</h2>
+                <div class="form-group">
+                    <label for="delete-team-name">Force Delete by Team Name</label>
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" id="delete-team-name" placeholder="Exact team name">
+                        <button class="btn btn-danger" id="force-delete-btn">Force Delete</button>
+                        <button class="btn btn-danger" id="delete-all-btn">Delete All</button>
+                    </div>
+                </div>
+                <div style="margin: 10px 0 16px;">
+                  <button class="btn btn-primary" id="auto-register-btn">Auto Registered</button>
+                </div>
+                <div class="registrations-list" id="registrations-list"></div>
+            </div>
+
+            <div class="section" id="matches-admin-section">
+                <h2 class="section-title">⚔️ Matches
+                   <button class="btn btn-danger" id="delete-all-matches-btn" style="margin-left:8px;">Delete All Matches</button>
+                   <button class="btn btn-primary" id="generate-round-btn" style="margin-left:8px;">Generate Round 1 (64 teams)</button>
+                </h2>
+                <div id="admin-matches-list"><p class="empty-message">Loading...</p></div>
+            </div>
+
+            <div class="section" id="roadmap-admin-section">
+                <h2 class="section-title">🗺️ Roadmap</h2>
+                <div id="admin-roadmap-display"><p class="empty-message">Loading...</p></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-btn active" data-target="dashboard-section"><i>📊</i><span>Dashboard</span></button>
+        <button class="nav-btn" data-target="banner-section"><i>🖼️</i><span>Banner</span></button>
+        <button class="nav-btn" data-target="notice-section"><i>📢</i><span>Notice</span></button>
+        <button class="nav-btn" data-target="settings-section"><i>⚙️</i><span>Settings</span></button>
+        <button class="nav-btn" data-target="teams-section"><i>👥</i><span>Teams</span></button>
+        <button class="nav-btn" data-target="screenshot-section"><i>📸</i><span>Shots</span></button>
+        <button class="nav-btn" data-target="winner-section"><i>🏆</i><span>Winners</span></button>
+        <button class="nav-btn" data-target="timer-section"><i>⏱️</i><span>Timer</span></button>
+        <button class="nav-btn" data-target="matches-admin-section"><i>⚔️</i><span>Matches</span></button>
+        <button class="nav-btn" data-target="roadmap-admin-section"><i>🗺️</i><span>Roadmap</span></button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script type="module" src="js/admin-app.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+@media (max-width: 768px) {
+  /* Header */
+  .header h1 { font-size: 1.4rem; }
+  .header-buttons { position: static; justify-content: center; margin-bottom: 10px; }
+  .header-btn { font-size: 0.75rem; padding: 6px 12px; }
+  .admin-dial-input { width: 64px; }
+
+  /* Roadmap grid and items */
+  .bracket-grid { min-width: 420px; }
+  .bracket-match { padding: 6px; }
+  .bracket-team { font-size: 0.75rem; padding: 5px 8px; }
+
+  /* Winners grid */
+  .winners-grid { grid-template-columns: 1fr; }
+
+  /* Roadmap flow */
+  .roadmap-flow { max-width: 100%; }
+  .flow-stage { max-width: 92%; }
+
+  /* Dynamic inline match font size tweak */
+  .bracket-match.inline .bracket-team { font-size: 1.05rem; }
+
+  /* Prize layout */
+  .prize-grid { grid-template-columns: 1fr; }
+  .prize-wrap { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,115 @@
+.notice-board { background: rgba(231, 76, 60, 0.2); border: 1px solid #e74c3c; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+.tournament-info { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+.info-card { background: rgba(52, 152, 219, 0.2); border-radius: 8px; padding: 15px; flex: 1; min-width: 150px; text-align: center; border: 1px solid #3498db; }
+.prize-pool { margin-bottom: 15px; }
+
+/* New gaming-styled prize area */
+.prize-area {
+  background: linear-gradient(135deg, rgba(0,0,0,0.35), rgba(0,0,0,0.2));
+  border: 1px solid rgba(243,156,18,0.35);
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.2), 0 8px 18px rgba(0,0,0,0.25);
+}
+.prize-head { 
+  font-weight: 800; 
+  letter-spacing: 0.4px; 
+  color: #f39c12; 
+  text-align: center; 
+  margin-bottom: 10px; 
+  text-shadow: 0 0 10px rgba(243,156,18,0.35); 
+}
+.prize-grid { 
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 10px; 
+}
+.prize-item { 
+  position: relative; 
+  border-radius: 12px; 
+  padding: 14px; 
+  text-align: center; 
+  background: rgba(0,0,0,0.28); 
+  overflow: hidden; 
+  transition: transform 0.2s, box-shadow 0.2s; 
+  border: 1px solid rgba(52,152,219,0.25); 
+}
+.prize-item::after { 
+  content: ""; 
+  position: absolute; 
+  inset: 0; 
+  border-radius: 12px; 
+  pointer-events: none; 
+  box-shadow: inset 0 0 24px rgba(0,0,0,0.35); 
+}
+.prize-item:hover { 
+  transform: translateY(-3px); 
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35); 
+}
+.prize-badge { 
+  font-weight: 800; 
+  margin-bottom: 6px; 
+}
+.prize-amount { 
+  font-size: 1.05rem; 
+  font-weight: 800; 
+  color: #ecf0f1; 
+}
+.prize-amount span { 
+  font-size: 1.35rem; 
+  margin-right: 4px; 
+}
+
+/* Variants */
+.prize-gold { 
+  border-color: rgba(243,156,18,0.55); 
+  background: linear-gradient(135deg, rgba(243,156,18,0.20), rgba(243,156,18,0.06)); 
+  box-shadow: 0 0 0 1px rgba(243,156,18,0.25), 0 10px 24px rgba(243,156,18,0.18); 
+}
+.prize-silver { 
+  border-color: rgba(189,195,199,0.55); 
+  background: linear-gradient(135deg, rgba(189,195,199,0.20), rgba(189,195,199,0.06)); 
+  box-shadow: 0 0 0 1px rgba(189,195,199,0.25), 0 10px 24px rgba(189,195,199,0.14); 
+}
+.prize-bronze { 
+  border-color: rgba(205,127,50,0.55); 
+  background: linear-gradient(135deg, rgba(205,127,50,0.20), rgba(205,127,50,0.06)); 
+  box-shadow: 0 0 0 1px rgba(205,127,50,0.25), 0 10px 24px rgba(205,127,50,0.16); 
+}
+
+/* Legacy prize wrap for admin preview compatibility */
+.prize-wrap { 
+  display:grid; 
+  grid-template-columns: repeat(3,1fr); 
+  gap: 12px; 
+}
+.prize-card { 
+  background: rgba(0,0,0,0.25); 
+  border: 2px solid #3498db; 
+  border-radius: 12px; 
+  padding: 14px; 
+  text-align:center; 
+  transition: transform 0.2s, box-shadow 0.2s; 
+}
+.prize-card:hover { 
+  transform: translateY(-3px); 
+  box-shadow: 0 8px 20px rgba(52,152,219,0.25); 
+}
+.prize-card .medal { 
+  font-size: 1.6rem; 
+  margin-bottom: 6px; 
+}
+.prize-card .place { 
+  color:#ecf0f1; 
+  font-weight:700; 
+  margin-bottom:4px; 
+}
+.prize-card .amount { 
+  color:#f39c12; 
+  font-weight:900; 
+  font-size:1.1rem; 
+}
+.prize-card.prime { 
+  border-color:#f39c12; 
+  background: linear-gradient(135deg, rgba(243,156,18,0.22), rgba(243,156,18,0.10)); 
+}

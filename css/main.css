@@ -1,0 +1,37 @@
+/* Refactor: css/main.css is now an import hub for modular stylesheets.
+   Tombstones for removed sections:
+   // removed global reset and body layout
+   // removed header, banner, and header-buttons styles
+   // removed admin-dial styles
+   // removed generic section and section-title styles
+   // removed registration form and input styles
+   // removed button variants and filter buttons
+   // removed registrations-list and registration-card styles
+   // removed matches card, progress bar, and round tabs styles
+   // removed roadmap flow and dynamic bracket styles
+   // removed winners grid and card styles
+   // removed notice board and tournament info styles
+   // removed prize area and variants (gold/silver/bronze)
+   // removed bottom nav and nav button styles
+   // removed cut-guard modal styles
+   // removed registration status inline card styles
+   // removed auth overlay and box styles
+   // removed timer display and live badge styles
+   // removed splash overlay styles
+   // removed responsive @media rules
+*/
+
+/* Modular imports */
+@import url('./base.css');
+@import url('./header.css');
+@import url('./sections.css');
+@import url('./registration.css');
+@import url('./matches.css');
+@import url('./roadmap.css');
+@import url('./winners.css');
+@import url('./notice.css');
+@import url('./nav.css');
+@import url('./auth.css');
+@import url('./timer.css');
+@import url('./splash.css');
+@import url('./media.css');
