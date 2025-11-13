@@ -13,6 +13,7 @@ import { initStatsAdmin } from './admin/modules/stats.js';
 import { initAdminMatches } from './admin/modules/matches.js';
 import { initAdminRoadmap } from './admin/modules/roadmap.js';
 import { initTimerAdmin } from './admin/modules/timer.js';
+import { initUCAdmin } from './admin/modules/uc.js';
 
 ensureFirebase();
 
@@ -31,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAdminMatches();
     initAdminRoadmap();
     initTimerAdmin();
+    initUCAdmin();
   });
 });
 

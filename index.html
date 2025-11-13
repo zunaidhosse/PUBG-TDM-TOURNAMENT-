@@ -20,10 +20,14 @@
                 <button class="header-btn helpline-btn" onclick="window.open('https://zunaidhosse.github.io/My-contact/', '_blank')">📞 Helpline</button>
                 <button class="header-btn share-btn" onclick="window.shareApp()">📱 Share App</button>
                 <button class="header-btn" id="install-btn" style="display:none;">⬇️ Install</button>
-                <div class="admin-dial">
+                <div class="admin-dial collapsed">
                     <input type="tel" id="admin-dial-input" class="admin-dial-input" placeholder="Search" maxlength="4" inputmode="numeric">
                     <button class="header-btn admin-dial-btn" id="admin-dial-btn">🔍</button>
                 </div>
+                <button class="header-btn uc-btn" id="uc-header-btn" title="UC Shop">
+                  <img src="UC.png" alt="UC" class="uc-icon">
+                  UC Shop
+                </button>
             </div>
             <h1>🎮 PUBG TDM TOURNAMENT</h1>
             <div id="stage-timer" class="timer-display"></div>
@@ -106,6 +110,15 @@
                     <p style="color: #ecf0f1;">Celebrating our tournament winners and their achievements</p>
                 </div>
                 <div class="winners-grid" id="winners-grid">Loading...</div>
+            </div>
+
+            <div class="section" id="uc-shop-section">
+                <div id="uc-marquee" class="uc-marquee">Loading offers...</div>
+                <h2 class="section-title">🏪 UC Shop</h2>
+                <div id="uc-packages" class="uc-packages">Loading...</div>
+                <div id="uc-notice" class="uc-bottom-notice"></div>
+                <h3 style="margin:12px 0 6px;">UC Gallery</h3>
+                <div class="winners-grid" id="uc-gallery">Loading...</div>
             </div>
         </div>
 

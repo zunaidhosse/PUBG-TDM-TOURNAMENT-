@@ -5,6 +5,29 @@ export function initNotice() {
   let prizeAmounts = { first: 500, second: 300, third: 100 };
   let winners = null;
 
+  function formatNotice(text) {
+    const lines = String(text || '').split('\n').map(l => l.trim()).filter(l => l.length || l === '');
+    const items = [];
+    let bufferList = [];
+    const flushList = () => {
+      if (bufferList.length) {
+        items.push(`<ul>${bufferList.map(it=>`<li>${it}</li>`).join('')}</ul>`);
+        bufferList = [];
+      }
+    };
+    lines.forEach(line => {
+      if (!line) { flushList(); items.push('<div class="nb-gap"></div>'); return; }
+      if (/^(\-|\*|•)\s+/.test(line)) {
+        bufferList.push(line.replace(/^(\-|\*|•)\s+/, ''));
+      } else {
+        flushList();
+        items.push(`<p>${line}</p>`);
+      }
+    });
+    flushList();
+    return items.join('');
+  }
+
   function render() {
     const el = document.getElementById('notice-board');
     if (!el) return;
@@ -17,7 +40,7 @@ export function initNotice() {
           <div>🥉 3rd Winner: <strong>${winners.third || 'TBD'}</strong> – ${prizeAmounts.third} UC</div>
         </div>
       </div>` : '';
-    el.innerHTML = box + (noticeText || "No announcements");
+    el.innerHTML = box + (noticeText ? formatNotice(noticeText) : "<p class=\"empty-message\">No announcements</p>");
   }
 
   db().ref('notice').on('value', (snapshot) => {

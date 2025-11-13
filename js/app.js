@@ -15,6 +15,7 @@ import { initTimer } from './modules/timer.js';
 import { initLive } from './modules/live.js';
 import { ensureFirebase } from './core/firebase.js';
 import { initSplash } from './modules/splash.js';
+import { initUCShop } from './modules/ucShop.js';
 
 ensureFirebase();
 
@@ -56,11 +57,19 @@ document.addEventListener('DOMContentLoaded', () => {
   initScreenshots();
   initTimer();
   initLive();
+  initUCShop();
 
   const btn = document.getElementById('install-btn');
   if (btn) btn.addEventListener('click', async () => {
     if (!deferredPrompt) return;
     deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; btn.style.display = 'none';
+  });
+
+  const ucBtn = document.getElementById('uc-header-btn');
+  if (ucBtn) ucBtn.addEventListener('click', () => {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const sec = document.getElementById('uc-shop-section'); if (sec) sec.classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   });
 });
 

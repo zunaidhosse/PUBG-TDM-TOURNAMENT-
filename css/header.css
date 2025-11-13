@@ -12,6 +12,21 @@
 .share-btn:hover { background: #27ae60; }
 
 .admin-dial { display:flex; align-items:center; gap:6px; background: rgba(255,255,255,0.08); padding:4px 6px; border-radius:6px; border:1px solid rgba(52,152,219,0.4); }
-.admin-dial-input { width: 80px; padding:6px 8px; border:none; outline:none; background: transparent; color:#fff; font-size:0.85rem; }
+.admin-dial-input { width: 80px; padding:6px 8px; border:none; outline:none; background: transparent; color:#fff; font-size:0.85rem; transition: width 0.2s ease, opacity 0.2s ease; }
 .admin-dial-btn { background:#34495e; color:#fff; padding:6px 10px; font-size:0.8rem; }
 
+/* collapsed state: only icon visible */
+.admin-dial.collapsed .admin-dial-input { width:0; opacity:0; padding:0; margin:0; pointer-events:none; }
+/* optional smaller footprint */
+.admin-dial.collapsed { padding:4px; }
+
+.uc-btn { background:#f1c40f; color:#1a1a2e; font-weight:900; }
+.uc-btn:hover { background:#d4ac0d; }
+
+.uc-icon {
+  width:34px;
+  height:34px;
+  vertical-align:middle;
+  margin-right:6px;
+  object-fit:contain;
+}
