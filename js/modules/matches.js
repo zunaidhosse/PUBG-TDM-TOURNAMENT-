@@ -48,12 +48,28 @@ export function initMatches() {
       list.insertAdjacentHTML('beforeend', `<div class="progress-wrap"><div class="progress-head">${labels[key]} • ${done}/${total} complete</div><div class="progress-bar"><span style="width:${total?Math.round(done*100/total):0}%"></span></div></div>`);
       if (matches.length===0){ list.innerHTML='<p class="empty-message">No matches scheduled</p>'; return; }
       matches.forEach(m=>{
-        const ct1 = clean(m.team1) || '', ct2 = clean(m.team2) || '';
-        const win1 = m.winner===m.team1?1:0, win2 = m.winner===m.team2?1:0;
-        list.insertAdjacentHTML('beforeend', `<div class="match-card"><h3>${labels[key]}</h3>
-        <div class="match-teams"><span>${ct1}</span><span style="color:#f39c12;font-weight:bold;">VS</span><span>${ct2}</span></div>
-        ${m.winner?`<div class="match-complete">MATCH COMPLETE</div><p style="text-align:center;color:#2ecc71;font-weight:bold;">Winner: ${m.winner} (Win Point: 1)</p>`:'<div class="match-pending">Match Pending</div>'}
-        <div style="display:flex;gap:8px;margin-top:8px;"><span class="registration-card">🏅 ${ct1}: ${win1}</span><span class="registration-card">🏅 ${ct2}: ${win2}</span></div></div>`);
+        const ct1 = clean(m.team1) || 'TBD', ct2 = clean(m.team2) || 'TBD';
+        const isComplete = !!m.winner;
+        
+        const t1Class = isComplete && m.winner === m.team1 ? 'winner-team' : '';
+        const t2Class = isComplete && m.winner === m.team2 ? 'winner-team' : '';
+
+        const statusHtml = isComplete 
+          ? `<div class="match-status-badge complete">MATCH COMPLETE</div>
+             <div class="winner-announce">Winner: <span>${m.winner}</span> (Win Point: 1)</div>`
+          : `<div class="match-status-badge pending">Match Pending</div>`;
+        
+        list.insertAdjacentHTML('beforeend', `
+          <div class="match-card ${isComplete ? 'completed' : ''}">
+            <div class="match-header">${labels[key]}</div>
+            <div class="match-versus-area">
+              <div class="match-team-box ${t1Class}">${ct1}</div>
+              <div class="match-vs-divider">VS</div>
+              <div class="match-team-box ${t2Class}">${ct2}</div>
+            </div>
+            ${statusHtml}
+          </div>
+        `);
       });
       const adv = matches.filter(m=>m.winner).map(m=>m.winner);
       if (adv.length) list.insertAdjacentHTML('beforeend', `<div class="registration-card"><h3>Advancing Teams</h3><p>${adv.join(', ')}</p></div>`);

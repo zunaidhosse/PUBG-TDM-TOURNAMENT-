@@ -18,9 +18,17 @@
   .flow-stage { max-width: 92%; }
 
   /* Dynamic inline match font size tweak */
-  .bracket-match.inline .bracket-team { font-size: 1.05rem; }
+  .bracket-match.inline .bracket-team { 
+    font-size: 0.85rem;
+    max-width: 80px; 
+  }
 
   /* Prize layout */
   .prize-grid { grid-template-columns: 1fr; }
   .prize-wrap { grid-template-columns: 1fr; }
+  
+  /* Feature cards */
+  .match-versus { grid-template-columns: 1fr auto 1fr; gap: 10px; }
+  .team-name { font-size: 1.1rem; }
+  .stats-grid { grid-template-columns: 1fr; gap: 8px; }
 }

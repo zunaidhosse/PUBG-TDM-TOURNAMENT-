@@ -35,91 +35,52 @@
         </div>
 
         <div class="tab-content">
-            <div class="section active" id="notice-section">
-                <h2 class="section-title">📢 Notice Board</h2>
-                <div class="tournament-info">
-                    <div class="info-card">
-                        <h3>Tournament Type</h3>
-                        <p id="tournament-type">1v1</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Team Limit</h3>
-                        <p id="team-limit">64</p>
-                    </div>
-                    <div class="info-card">
-                        <h3>Registration Status</h3>
-                        <p id="registration-status">OPEN</p>
-                    </div>
-                </div>
-                <div id="prize-pool" class="prize-pool">Loading prize pool...</div>
-                <div class="notice-board" id="notice-board">Loading...</div>
-            </div>
-
-            <div class="section" id="registration-section">
-                <h2 class="section-title">📝 Team Registration</h2>
-                <div class="registration-form">
-                    <div class="form-group">
-                        <label for="team-name">Team Name</label>
-                        <input type="text" id="team-name" placeholder="Enter your team name">
-                    </div>
-                    <button class="btn btn-primary" id="register-btn">Register Now</button>
-                    <div id="registration-status-inline" class="registration-status-inline"></div>
-                </div>
-            </div>
-
-            <div class="section" id="registered-teams-section">
-                <h2 class="section-title">👥 Registered Teams</h2>
-                <div class="registrations-list" id="registrations-list">Loading...</div>
-            </div>
-
-            <div class="section" id="matches-section">
-                <h2 class="section-title">⚔️ Tournament Matches</h2>
-                <div class="round-tabs">
-                    <button class="round-btn active" id="round1-btn">Round 1</button>
-                    <button class="round-btn" id="round2-btn">Round 2</button>
-                    <button class="round-btn" id="round3-btn">Round 3</button>
-                    <button class="round-btn" id="quarter-btn">Quarter-Finals</button>
-                    <button class="round-btn" id="semi-btn">Semi-Finals</button>
-                    <button class="round-btn" id="grand-btn">Grand Final</button>
-                </div>
-                <div id="matches-list"></div>
-            </div>
-
-            <div class="section" id="roadmap-section">
-                <h2 class="section-title">🗺️ Tournament Roadmap</h2>
-                <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
-                 <button class="btn btn-primary" id="dynamic-roadmap-btn">Dynamic Roadmap</button>
-               </div>
-                <div id="roadmap-display">Loading bracket...</div>
-            </div>
-
-            <div class="section" id="screenshots-section">
-                <h2 class="section-title">📸 Match Screenshots</h2>
-                <div style="background: rgba(46, 204, 113, 0.2); border: 1px solid #2ecc71; border-radius: 8px; padding: 15px; margin-bottom: 20px; text-align: center;">
-                    <h3 style="color: #2ecc71; margin-bottom: 10px;">📤 Submit Your Screenshot</h3>
-                    <p style="color: #ecf0f1; margin-bottom: 15px;">Upload your match screenshots to our WhatsApp group</p>
-                    <button class="btn btn-primary" onclick="window.open('https://chat.whatsapp.com/DZCZ9RIrDXMAQibGKOvDxt?mode=wwt', '_blank')" style="font-size: 0.95rem; padding: 10px 24px;">📸 Submit Screenshot</button>
-                </div>
-                <h3 style="margin-bottom: 15px;">📷 Published Screenshots</h3>
-                <div class="winners-grid" id="screenshots-grid">Loading...</div>
-            </div>
-
-            <div class="section" id="winners-section">
-                <div class="winner-section">
-                    <h2>🏆 Hall of Champions</h2>
-                    <p style="color: #ecf0f1;">Celebrating our tournament winners and their achievements</p>
-                </div>
-                <div class="winners-grid" id="winners-grid">Loading...</div>
-            </div>
-
-            <div class="section" id="uc-shop-section">
-                <div id="uc-marquee" class="uc-marquee">Loading offers...</div>
-                <h2 class="section-title">🏪 UC Shop</h2>
-                <div id="uc-packages" class="uc-packages">Loading...</div>
-                <div id="uc-notice" class="uc-bottom-notice"></div>
-                <h3 style="margin:12px 0 6px;">UC Gallery</h3>
-                <div class="winners-grid" id="uc-gallery">Loading...</div>
-            </div>
+            <!-- Sections are now rendered by JavaScript modules -->
+            <!-- removed inline section: notice-section -->
+            <!-- removed inline section: registration-section -->
+            <!-- removed inline section: registered-teams-section -->
+            <!-- removed inline section: matches-section -->
+            <!-- removed inline section: roadmap-section -->
+            <!-- removed inline section: screenshots-section -->
+            <!-- removed inline section: winners-section -->
+            <!-- removed inline section: uc-shop-section -->
+            <!-- removed inline section: more-section -->
+            <!-- removed inline section: rules-section -->
+            <!-- removed inline section: faq-section -->
+            <!-- removed inline section: rankings-section -->
+            <!-- removed inline section: report-section -->
+            <!-- removed inline section: history-section -->
+            <!-- removed inline section: schedule-section -->
+            <!-- removed inline section: notifications-section -->
+            <!-- removed inline section: my-match-section -->
+            <!-- removed inline section: team-stats-section -->
+            <!-- removed inline section: live-feed-section -->
+            <!-- removed inline section: achievements-section -->
+            <!-- removed inline section: room-section -->
+            <!-- removed inline section: progress-section -->
+            
+            <div class="section active" id="notice-section"></div>
+            <div class="section" id="registration-section"></div>
+            <div class="section" id="registered-teams-section"></div>
+            <div class="section" id="matches-section"></div>
+            <div class="section" id="roadmap-section"></div>
+            <div class="section" id="screenshots-section"></div>
+            <div class="section" id="winners-section"></div>
+            <div class="section" id="uc-shop-section"></div>
+            <div class="section" id="more-section"></div>
+            <div class="section" id="rules-section"></div>
+            <div class="section" id="faq-section"></div>
+            <div class="section" id="rankings-section"></div>
+            <div class="section" id="report-section"></div>
+            <div class="section" id="history-section"></div>
+            <div class="section" id="schedule-section"></div>
+            <div class="section" id="notifications-section"></div>
+            <div class="section" id="my-match-section"></div>
+            <div class="section" id="team-stats-section"></div>
+            <div class="section" id="live-feed-section"></div>
+            <div class="section" id="achievements-section"></div>
+            <div class="section" id="room-section"></div>
+            <div class="section" id="progress-section"></div>
         </div>
 
         <!-- Cut/Delete Guard Modal -->
@@ -156,8 +117,13 @@
         <button class="nav-btn" data-target="registered-teams-section"><i>👥</i><span>Teams</span></button>
         <button class="nav-btn" data-target="matches-section"><i>⚔️</i><span>Matches</span></button>
         <button class="nav-btn" data-target="roadmap-section"><i>🗺️</i><span>Roadmap</span></button>
+        <button class="nav-btn" data-target="rankings-section"><i>🏅</i><span>Rankings</span></button>
         <button class="nav-btn" data-target="screenshots-section"><i>📸</i><span>Screenshot</span></button>
         <button class="nav-btn" data-target="winners-section"><i>🏆</i><span>Winners</span></button>
+        <button class="nav-btn" data-target="schedule-section"><i>📅</i><span>Schedule</span></button>
+        <button class="nav-btn" data-target="notifications-section"><i>🔔</i><span>Alerts</span></button>
+        <button class="nav-btn" data-target="live-feed-section"><i>📡</i><span>Feed</span></button>
+        <button class="nav-btn" data-target="more-section"><i>⚡</i><span>More</span></button>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>

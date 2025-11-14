@@ -32,12 +32,12 @@ export function initNotice() {
     const el = document.getElementById('notice-board');
     if (!el) return;
     const box = winners ? `
-      <div style="background:rgba(243,156,18,0.18); border:1px solid #f39c12; border-radius:10px; padding:12px; margin-bottom:12px;">
-        <div style="text-align:center; font-weight:800; color:#f39c12; margin-bottom:8px;">🏆 TOURNAMENT WINNERS 🏆</div>
-        <div style="line-height:1.6;">
-          <div>🥇 1st Winner: <strong>${winners.first || 'TBD'}</strong> – ${prizeAmounts.first} UC</div>
-          <div>🥈 2nd Winner: <strong>${winners.second || 'TBD'}</strong> – ${prizeAmounts.second} UC</div>
-          <div>🥉 3rd Winner: <strong>${winners.third || 'TBD'}</strong> – ${prizeAmounts.third} UC</div>
+      <div style="background:rgba(243,156,18,0.18); border:2px solid #f39c12; border-radius:14px; padding:18px; margin-bottom:16px; box-shadow: 0 8px 24px rgba(243,156,18,0.2);">
+        <div style="text-align:center; font-weight:900; font-size:1.1rem; color:#f39c12; margin-bottom:12px; text-shadow: 0 0 16px rgba(243,156,18,0.6);">🏆 TOURNAMENT WINNERS 🏆</div>
+        <div style="line-height:1.8;">
+          <div style="padding:10px 0; border-bottom:1px solid rgba(243,156,18,0.2); font-weight:700;">🥇 1st Winner: <strong style="color:#f1c40f;">${winners.first || 'TBD'}</strong> – ${prizeAmounts.first} UC</div>
+          <div style="padding:10px 0; border-bottom:1px solid rgba(243,156,18,0.2); font-weight:700;">🥈 2nd Winner: <strong style="color:#bdc3c7;">${winners.second || 'TBD'}</strong> – ${prizeAmounts.second} UC</div>
+          <div style="padding:10px 0; font-weight:700;">🥉 3rd Winner: <strong style="color:#cd7f32;">${winners.third || 'TBD'}</strong> – ${prizeAmounts.third} UC</div>
         </div>
       </div>` : '';
     el.innerHTML = box + (noticeText ? formatNotice(noticeText) : "<p class=\"empty-message\">No announcements</p>");
@@ -48,7 +48,7 @@ export function initNotice() {
     render();
   });
 
-  // Prize Pool render
+  // Prize Pool render with enhanced styling
   db().ref('prizePool').on('value', (snapshot) => {
     const el = document.getElementById('prize-pool');
     if (!el) return;
@@ -65,19 +65,19 @@ export function initNotice() {
     };
     el.innerHTML = `
       <div class="prize-area">
-        <div class="prize-head">🏆 Tournament Prize Pool</div>
+        <div class="prize-head">🏆 Tournament Prize Pool 🏆</div>
         <div class="prize-grid">
           <div class="prize-item prize-gold">
             <div class="prize-badge">🥇 1st Place</div>
-            <div class="prize-amount"><span>${f}</span> UC</div>
+            <div class="prize-amount"><span>${f}</span>UC</div>
           </div>
           <div class="prize-item prize-silver">
             <div class="prize-badge">🥈 2nd Place</div>
-            <div class="prize-amount"><span>${s}</span> UC</div>
+            <div class="prize-amount"><span>${s}</span>UC</div>
           </div>
           <div class="prize-item prize-bronze">
             <div class="prize-badge">🥉 3rd Place</div>
-            <div class="prize-amount"><span>${t}</span> UC</div>
+            <div class="prize-amount"><span>${t}</span>UC</div>
           </div>
         </div>
       </div>

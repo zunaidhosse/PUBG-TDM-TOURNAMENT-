@@ -6,3 +6,7 @@
 .cut-guard-box { background: rgba(26,26,46,0.95); border:1px solid #3498db; border-radius:10px; padding:16px; width: 90%; max-width: 360px; color:#ecf0f1; }
 .cut-guard-input { flex:1; padding:10px; border-radius:6px; border:1px solid #3498db; background: rgba(255,255,255,0.08); color:#fff; }
 
+.quick-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap:10px; }
+.quick-card { display:block; text-align:center; padding:12px; border-radius:10px; background: rgba(52,152,219,0.18); border:1px solid #3498db; color:#ecf0f1; font-weight:800; }
+.quick-card:active { transform: translateY(1px); }
+

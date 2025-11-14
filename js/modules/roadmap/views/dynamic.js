@@ -55,17 +55,38 @@ export function renderDynamicGrid({ display, split, gf, zoomLevel }, onZoomChang
   `;
 
   const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
-  const applyZoom = () => { grid.style.transform = `scale(${zoomLevel})`; };
-  zoomLevel = clamp(zoomLevel, 0.4, 1.6);
+  let currentZoom = zoomLevel;
+
+  const container = display.querySelector('#bracket-capture');
+  
+  // Auto-fit calculation for small screens (Mobile/Narrow)
+  // Only trigger if currentZoom is near default (0.9/1.0) and container is narrow.
+  if (container && (Math.abs(currentZoom - 1) < 0.1 || Math.abs(currentZoom - 0.9) < 0.05)) {
+    const GRID_BASE_WIDTH = 700; // Value from css/roadmap.css .bracket-grid min-width
+    const containerWidth = container.clientWidth;
+    
+    if (containerWidth > 0 && containerWidth < GRID_BASE_WIDTH) {
+      // Calculate required scale to fit horizontally (accounting for a small buffer)
+      const requiredScale = (containerWidth - 20) / GRID_BASE_WIDTH; 
+      
+      if (requiredScale < 1) {
+        currentZoom = clamp(requiredScale, 0.4, 1.0);
+        onZoomChange(currentZoom); // Persist the new auto-fit zoom level back to index.js state
+      }
+    }
+  }
+
+  const applyZoom = () => { grid.style.transform = `scale(${currentZoom})`; };
+  currentZoom = clamp(currentZoom, 0.4, 1.6);
   applyZoom();
 
   const zin = display.querySelector('#zoom-in-btn');
   const zout = display.querySelector('#zoom-out-btn');
   const zreset = display.querySelector('#zoom-reset-btn');
 
-  if (zin) zin.onclick = () => { zoomLevel = clamp(zoomLevel + 0.1, 0.4, 1.6); applyZoom(); onZoomChange && onZoomChange(zoomLevel); };
-  if (zout) zout.onclick = () => { zoomLevel = clamp(zoomLevel - 0.1, 0.4, 1.6); applyZoom(); onZoomChange && onZoomChange(zoomLevel); };
-  if (zreset) zreset.onclick = () => { zoomLevel = 1; applyZoom(); onZoomChange && onZoomChange(zoomLevel); };
+  if (zin) zin.onclick = () => { currentZoom = clamp(currentZoom + 0.1, 0.4, 1.6); applyZoom(); onZoomChange && onZoomChange(currentZoom); };
+  if (zout) zout.onclick = () => { currentZoom = clamp(currentZoom - 0.1, 0.4, 1.6); applyZoom(); onZoomChange && onZoomChange(currentZoom); };
+  if (zreset) zreset.onclick = () => { currentZoom = 1; applyZoom(); onZoomChange && onZoomChange(currentZoom); };
 
   setupDownload({ captureSelector: '#bracket-capture', grid, fileName: 'tournament-roadmap-mobile.png' });
 }

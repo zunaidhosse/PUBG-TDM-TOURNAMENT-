@@ -5,8 +5,9 @@ export function initAuthGate() {
   function showAuth() { document.getElementById('auth-overlay').style.display = 'flex'; }
   function hideAuth() { document.getElementById('auth-overlay').style.display = 'none'; }
   function ensureAuth() {
-    const u = localStorage.getItem('username'); if (u) return hideAuth();
-    showAuth();
+    // Always hide overlay; do not prompt for username on app entry
+    hideAuth();
+    return;
   }
 
   document.addEventListener('DOMContentLoaded', ensureAuth);

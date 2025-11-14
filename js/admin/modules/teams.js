@@ -105,6 +105,8 @@ export function initTeamsAdmin() {
       card.className = 'registration-card';
       card.innerHTML = `
         <h3>${team.teamName}</h3>
+        <p>Game ID: <span style="font-weight:700;">${team.gameId || 'N/A'}</span></p>
+        ${team.whatsapp ? `<p>📱 ${team.whatsapp}</p>` : ''}
         <p>Status: <span style="color:${team.status==='Approved'?'#2ecc71':'#f39c12'}">${team.status || 'Pending'}</span></p>
         <div style="margin-top:8px;">
           <button class="btn btn-success">Approve</button>
