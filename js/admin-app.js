@@ -20,6 +20,7 @@ import { initHistoryAdmin } from './admin/modules/history.js';
 import { initReportsAdmin } from './admin/modules/reports.js';
 import { initScheduleAdmin } from './admin/modules/schedule.js';
 import { initNotificationsAdmin } from './admin/modules/notificationsAdmin.js';
+import { initTdmWinnersAdmin } from './admin/modules/tdmWinnersAdmin.js';
 
 // Section renderers
 import { renderDashboard } from './admin/sections/dashboard.js';
@@ -39,6 +40,7 @@ import { renderHistory } from './admin/sections/history.js';
 import { renderReports } from './admin/sections/reports.js';
 import { renderSchedule } from './admin/sections/schedule.js';
 import { renderNotifications } from './admin/sections/notifications.js';
+import { renderTdmWinners } from './admin/sections/tdmWinners.js';
 
 ensureFirebase();
 
@@ -65,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderReports();
     renderSchedule();
     renderNotifications();
+    renderTdmWinners();
     
     // Initialize functionality
     initBannerAdmin();
@@ -85,6 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initReportsAdmin();
     initScheduleAdmin();
     initNotificationsAdmin();
+    initTdmWinnersAdmin();
   });
 });
 

@@ -29,6 +29,20 @@ export function renderRegistrationSection() {
             <input type="tel" id="whatsapp-number" placeholder="+880 1XXX-XXXXXX">
             <span class="input-error" id="whatsapp-number-error"></span>
         </div>
+        <div class="form-group">
+            <label for="discord-contact">
+                Discord Username
+                <span style="color:#95a5a6; font-size:0.85rem;">(optional - helps international coordination)</span>
+            </label>
+            <input type="text" id="discord-contact" placeholder="username#1234">
+        </div>
+        <div class="form-group">
+            <label for="telegram-contact">
+                Telegram Username
+                <span style="color:#95a5a6; font-size:0.85rem;">(optional - alternative contact)</span>
+            </label>
+            <input type="text" id="telegram-contact" placeholder="@username">
+        </div>
         <div class="form-group" style="flex-direction:row; align-items:center; gap:8px;">
             <input type="checkbox" id="terms-checkbox" style="width:auto; margin:0;">
             <label for="terms-checkbox" style="margin:0; cursor:pointer; user-select:none;">

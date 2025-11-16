@@ -34,6 +34,12 @@ export function renderDashboard() {
         <input type="text" id="room-note-input" placeholder="e.g., Finals - Join 5 min early">
       </div>
       <div class="form-group">
+        <label for="room-reveal-time">Reveal Time (when to show room details)</label>
+        <input type="datetime-local" id="room-reveal-time">
+      </div>
+      <!-- Auto-hide removed: room will remain visible until cleared by admin -->
+      <div style="font-size:0.85rem; color:#95a5a6; margin-top:6px;">Note: Room details will remain visible until manually cleared.</div>
+      <div class="form-group">
         <label>Status</label>
         <select id="room-active-select">
           <option value="true">Active</option>

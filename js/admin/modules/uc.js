@@ -62,18 +62,32 @@ export function initUCAdmin() {
     // Images (gallery)
     if (imgList) {
       imgList.innerHTML = '';
-      const imgs = Array.isArray(v.images) ? v.images.slice().sort((a,b)=>(b.ts||0)-(a.ts||0)) : [];
+      const imgs = Array.isArray(v.images) ? v.images.filter(img => img && img.url).slice().sort((a,b)=>(b.ts||0)-(a.ts||0)) : [];
       if (!imgs.length) { imgList.innerHTML = '<div class="registration-card">No images</div>'; }
-      imgs.forEach((it, i) => {
-        const div = document.createElement('div');
-        div.className = 'registration-card';
-        div.innerHTML = `<img src="${it.url}" style="width:100%;border-radius:6px;margin-bottom:8px;"><h4>${it.title||'Untitled'}</h4><button class="btn btn-danger">Remove</button>`;
-        div.querySelector('.btn-danger').addEventListener('click', async () => {
-          const next = imgs.filter((_,idx)=> idx!==i);
-          try { await ref.child('images').set(next); toast('success','Image removed'); } catch { toast('danger','Failed'); }
+      else {
+        const scrollContainer = document.createElement('div');
+        scrollContainer.style.maxHeight = '500px';
+        scrollContainer.style.overflowY = 'auto';
+        scrollContainer.style.display = 'flex';
+        scrollContainer.style.flexDirection = 'column';
+        scrollContainer.style.gap = '10px';
+        
+        imgs.forEach((it, i) => {
+          const div = document.createElement('div');
+          div.className = 'registration-card';
+          div.innerHTML = `
+            <img src="${it.url}" style="width:100%;max-height:150px;object-fit:cover;border-radius:6px;margin-bottom:8px;">
+            <h4>${i + 1}. ${it.title||'Untitled'}</h4>
+            <button class="btn btn-danger">Remove</button>
+          `;
+          div.querySelector('.btn-danger').addEventListener('click', async () => {
+            const next = imgs.filter((_,idx)=> idx!==i);
+            try { await ref.child('images').set(next); toast('success','Image removed'); } catch { toast('danger','Failed'); }
+          });
+          scrollContainer.appendChild(div);
         });
-        imgList.appendChild(div);
-      });
+        imgList.appendChild(scrollContainer);
+      }
     }
   });
 

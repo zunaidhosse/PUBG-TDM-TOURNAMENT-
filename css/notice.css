@@ -25,17 +25,56 @@
   100% { background-position: 200% 0%; }
 }
 
-.notice-board p { 
+/* Individual Notice Cards */
+.notice-card {
+  background: linear-gradient(135deg, rgba(52,152,219,0.18), rgba(41,128,185,0.10));
+  border: 2px solid rgba(52,152,219,0.45);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.notice-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(52,152,219,0.3);
+}
+
+.notice-card.notice-important {
+  border-color: rgba(243,156,18,0.6);
+  background: linear-gradient(135deg, rgba(243,156,18,0.20), rgba(211,84,0,0.10));
+  box-shadow: 0 6px 18px rgba(243,156,18,0.25);
+}
+
+.notice-card.notice-pinned {
+  border-color: rgba(46,204,113,0.6);
+  background: linear-gradient(135deg, rgba(46,204,113,0.20), rgba(39,174,96,0.10));
+  box-shadow: 0 8px 24px rgba(46,204,113,0.3);
+}
+
+.notice-card.winner-announcement {
+  background: linear-gradient(135deg, rgba(243,156,18,0.22), rgba(211,84,0,0.12));
+  border: 2px solid rgba(243,156,18,0.5);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 24px rgba(243,156,18,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.notice-content p { 
   margin: 8px 0;
   line-height: 1.7;
   color: #ecf0f1;
   font-weight: 500;
 }
-.notice-board ul { 
+
+.notice-content ul { 
   margin: 10px 0 10px 20px;
   padding-left: 16px;
 }
-.notice-board li { 
+
+.notice-content li { 
   margin: 6px 0;
   line-height: 1.65;
   list-style: none;
@@ -43,15 +82,17 @@
   padding-left: 24px;
   color: #ecf0f1;
 }
-.notice-board li::before {
+
+.notice-content li::before {
   content: "▸";
   position: absolute;
   left: 0;
-  color: #e74c3c;
+  color: #3498db;
   font-weight: 900;
   font-size: 1.1rem;
 }
-.notice-board .nb-gap { 
+
+.nb-gap { 
   height: 12px;
 }
 
@@ -249,27 +290,4 @@
 }
 .prize-bronze:hover {
   box-shadow: 0 0 0 1px rgba(205,127,50,0.45), 0 16px 40px rgba(205,127,50,0.3);
-}
-
-/* Winner announcement box */
-.notice-board > div[style*="background:rgba(243,156,18"] {
-  background: linear-gradient(135deg, rgba(243,156,18,0.22), rgba(211,84,0,0.12)) !important;
-  border: 2px solid rgba(243,156,18,0.5) !important;
-  border-radius: 14px !important;
-  padding: 18px !important;
-  margin-bottom: 16px !important;
-  box-shadow: 0 8px 24px rgba(243,156,18,0.2), inset 0 1px 0 rgba(255,255,255,0.1) !important;
-}
-.notice-board > div[style*="background:rgba(243,156,18"] > div:first-child {
-  font-size: 1.1rem !important;
-  text-shadow: 0 0 16px rgba(243,156,18,0.6), 0 2px 4px rgba(0,0,0,0.3) !important;
-  margin-bottom: 12px !important;
-}
-.notice-board > div[style*="background:rgba(243,156,18"] > div:last-child > div {
-  padding: 10px 0 !important;
-  border-bottom: 1px solid rgba(243,156,18,0.2) !important;
-  font-weight: 700 !important;
-}
-.notice-board > div[style*="background:rgba(243,156,18"] > div:last-child > div:last-child {
-  border-bottom: none !important;
 }

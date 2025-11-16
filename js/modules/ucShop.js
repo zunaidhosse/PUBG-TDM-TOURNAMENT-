@@ -88,14 +88,17 @@ My PUBG Mobile Game ID is: ${gameId}`);
     }
     if (gallery) {
       gallery.innerHTML = '';
-      const imgs = Array.isArray(v.images) ? v.images.slice().sort((a,b)=>(b.ts||0)-(a.ts||0)) : [];
-      if (!imgs.length) { gallery.innerHTML = '<p class="empty-message">No images yet</p>'; }
-      imgs.forEach(it => {
-        const card = document.createElement('div');
-        card.className = 'winner-card';
-        card.innerHTML = `<img src="${it.url}" alt="${it.title||'Image'}"><h3>${it.title||'Untitled'}</h3>`;
-        gallery.appendChild(card);
-      });
+      const imgs = Array.isArray(v.images) ? v.images.filter(img => img && img.url).slice().sort((a,b)=>(b.ts||0)-(a.ts||0)) : [];
+      if (!imgs.length) { 
+        gallery.innerHTML = '<p class="empty-message">No images yet</p>'; 
+      } else {
+        imgs.forEach(it => {
+          const card = document.createElement('div');
+          card.className = 'winner-card';
+          card.innerHTML = `<img src="${it.url}" alt="${it.title||'Image'}" style="width:100%; height:200px; object-fit:cover;"><h3>${it.title||'Untitled'}</h3>`;
+          gallery.appendChild(card);
+        });
+      }
     }
   });
 }

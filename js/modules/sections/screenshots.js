@@ -9,7 +9,7 @@ export function renderScreenshotsSection() {
         <p style="color: #ecf0f1; margin-bottom: 15px;">Upload your match screenshots to our WhatsApp group</p>
         <button class="btn btn-primary" onclick="window.open('https://chat.whatsapp.com/DZCZ9RIrDXMAQibGKOvDxt?mode=wwt', '_blank')" style="font-size: 0.95rem; padding: 10px 24px;">📸 Submit Screenshot</button>
     </div>
-    <h3 style="margin-bottom: 15px;">📷 Published Screenshots</h3>
-    <div class="winners-grid" id="screenshots-grid">Loading...</div>
+    <h3 style="margin-bottom: 15px;">📷 All Published Screenshots</h3>
+    <div class="winners-grid" id="screenshots-grid" style="max-height: none; overflow-y: visible;">Loading...</div>
   `;
 }

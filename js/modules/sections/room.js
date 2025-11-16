@@ -7,4 +7,3 @@ export function renderRoomSection() {
     <div id="room-display">Loading...</div>
   `;
 }
-

@@ -34,6 +34,7 @@ export function initStatsAdmin() {
     const modeInput = document.getElementById('room-mode-input');
     const noteInput = document.getElementById('room-note-input');
     const activeSelect = document.getElementById('room-active-select');
+    const revealTimeInput = document.getElementById('room-reveal-time');
     
     if (codeInput) codeInput.value = room.code || '';
     if (passInput) passInput.value = room.password || '';
@@ -41,6 +42,9 @@ export function initStatsAdmin() {
     if (modeInput) modeInput.value = room.mode || '';
     if (noteInput) noteInput.value = room.note || '';
     if (activeSelect) activeSelect.value = String(!!room.active);
+    if (revealTimeInput && room.revealTime) {
+      revealTimeInput.value = new Date(room.revealTime).toISOString().slice(0, 16);
+    }
   });
 
   if (saveBtn) {
@@ -51,10 +55,13 @@ export function initStatsAdmin() {
       const mode = document.getElementById('room-mode-input')?.value.trim();
       const note = document.getElementById('room-note-input')?.value.trim();
       const active = document.getElementById('room-active-select')?.value === 'true';
+      const revealTimeVal = document.getElementById('room-reveal-time')?.value;
+      const revealTime = revealTimeVal ? new Date(revealTimeVal).getTime() : null;
       
       if (!code) return toast('danger', 'Enter room ID');
       
       try {
+        // Save room code without auto-hide/display duration fields.
         await db().ref('roomCode').set({
           code,
           password: password || null,
@@ -62,6 +69,7 @@ export function initStatsAdmin() {
           mode: mode || null,
           note: note || null,
           active,
+          revealTime,
           updatedAt: Date.now()
         });
         toast('success', 'Room code saved');

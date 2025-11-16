@@ -12,9 +12,7 @@ export function renderTeams() {
         <button class="btn btn-danger" id="delete-all-btn">Delete All</button>
       </div>
     </div>
-    <div style="margin: 10px 0 16px;">
-      <button class="btn btn-primary" id="auto-register-btn">Auto Registered</button>
-    </div>
+    <p style="color:#95a5a6;margin-top:8px;font-size:0.9rem;">💡 Players now provide Discord/Telegram contacts for international coordination</p>
     <div class="registrations-list" id="registrations-list"></div>
   `;
 }

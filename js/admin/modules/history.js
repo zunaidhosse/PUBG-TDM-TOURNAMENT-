@@ -30,16 +30,43 @@ export function initHistoryAdmin() {
     if (!list) return;
     list.innerHTML = '';
     const items = [];
-    snap.forEach(c => items.push({ id: c.key, ...c.val() }));
+    snap.forEach(c => {
+      const data = c.val();
+      if (data) {
+        items.push({ id: c.key, ...data });
+      }
+    });
     items.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-    items.forEach(h => {
+    
+    if (items.length === 0) {
+      list.innerHTML = '<p class="empty-message">No history</p>';
+      return;
+    }
+    
+    const scrollContainer = document.createElement('div');
+    scrollContainer.style.maxHeight = '500px';
+    scrollContainer.style.overflowY = 'auto';
+    scrollContainer.style.display = 'flex';
+    scrollContainer.style.flexDirection = 'column';
+    scrollContainer.style.gap = '10px';
+    
+    items.forEach((h, idx) => {
       const div = document.createElement('div');
       div.className = 'registration-card';
-      div.innerHTML = `<h4>🏆 ${h.title}</h4><p>Champion: ${h.winner}</p>${h.date ? `<p>${h.date}</p>` : ''}<button class="btn btn-danger">Delete</button>`;
+      const imageHtml = h.image ? `<img src="${h.image}" style="width:100%;max-height:120px;object-fit:cover;border-radius:6px;margin-bottom:8px;">` : '';
+      div.innerHTML = `
+        ${imageHtml}
+        <h4>${idx + 1}. 🏆 ${h.title}</h4>
+        <p>Champion: ${h.winner}</p>
+        ${h.date ? `<p>${h.date}</p>` : ''}
+        <button class="btn btn-danger">Delete</button>
+      `;
       div.querySelector('.btn-danger').addEventListener('click', () => {
         db().ref('history/' + h.id).remove().then(() => toast('success', 'Deleted')).catch(() => toast('danger', 'Failed'));
       });
-      list.appendChild(div);
+      scrollContainer.appendChild(div);
     });
+    
+    list.appendChild(scrollContainer);
   });
 }

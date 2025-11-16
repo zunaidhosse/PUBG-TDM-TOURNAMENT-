@@ -103,10 +103,17 @@ export function initTeamsAdmin() {
     items.forEach(team => {
       const card = document.createElement('div');
       card.className = 'registration-card';
+      
+      const contactsHtml = [];
+      if (team.whatsapp) contactsHtml.push(`📱 ${team.whatsapp}`);
+      if (team.discord) contactsHtml.push(`<span style="color:#5865F2;">💬 ${team.discord}</span>`);
+      if (team.telegram) contactsHtml.push(`<span style="color:#0088cc;">✈️ ${team.telegram}</span>`);
+      const contactsDisplay = contactsHtml.length ? contactsHtml.join(' • ') : '<span style="color:#95a5a6;">No contacts</span>';
+      
       card.innerHTML = `
         <h3>${team.teamName}</h3>
         <p>Game ID: <span style="font-weight:700;">${team.gameId || 'N/A'}</span></p>
-        ${team.whatsapp ? `<p>📱 ${team.whatsapp}</p>` : ''}
+        <p style="font-size:0.85rem;margin:4px 0;">${contactsDisplay}</p>
         <p>Status: <span style="color:${team.status==='Approved'?'#2ecc71':'#f39c12'}">${team.status || 'Pending'}</span></p>
         <div style="margin-top:8px;">
           <button class="btn btn-success">Approve</button>
@@ -183,34 +190,6 @@ export function initTeamsAdmin() {
         toast('success','All approved teams deleted. Registration is now open.');
       } catch {
         toast('danger','Bulk delete failed');
-      }
-    });
-  }
-
-  // Auto register 64 simulated
-  const autoBtn = document.getElementById('auto-register-btn');
-  if (autoBtn) {
-    autoBtn.addEventListener('click', async () => {
-      if (simulateTeamsActive && simulatedTeams.length) return;
-      try {
-        simulateTeamsActive = true;
-        autoBtn.disabled = true;
-        autoBtn.textContent = 'Generating...';
-
-        const base = Date.now();
-        simulatedTeams = Array.from({ length: 64 }, (_, i) => ({
-          id: `sim-${i + 1}`,
-          teamName: `Team ${i + 1}`,
-          status: 'Pending',
-          registeredAt: base + i
-        }));
-
-        saveSim();
-        renderSimulatedTeams();
-        toast('success', 'Auto-registered 64 teams (simulated)');
-      } finally {
-        autoBtn.disabled = false;
-        autoBtn.textContent = 'Auto Registered';
       }
     });
   }

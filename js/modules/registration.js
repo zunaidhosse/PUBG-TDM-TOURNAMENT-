@@ -85,6 +85,8 @@ export function initRegistration() {
     const gameUsername = (usernameInput?.value || '').trim();
     const gameId = (gameIdInput?.value || '').trim();
     const whatsapp = (whatsappInput?.value || '').trim();
+    const discord = (document.getElementById('discord-contact')?.value || '').trim();
+    const telegram = (document.getElementById('telegram-contact')?.value || '').trim();
     const termsAccepted = termsCheckbox?.checked;
     const createdBy = localStorage.getItem('username') || '';
     
@@ -123,6 +125,8 @@ export function initRegistration() {
         gameUsername,
         gameId,
         whatsapp: whatsapp || null,
+        discord: discord || null,
+        telegram: telegram || null,
         status: 'Pending',
         registeredAt: Date.now(),
         createdBy
@@ -134,6 +138,8 @@ export function initRegistration() {
       if (usernameInput) usernameInput.value = '';
       if (gameIdInput) gameIdInput.value = '';
       if (whatsappInput) whatsappInput.value = '';
+      if (document.getElementById('discord-contact')) document.getElementById('discord-contact').value = '';
+      if (document.getElementById('telegram-contact')) document.getElementById('telegram-contact').value = '';
       if (termsCheckbox) termsCheckbox.checked = false;
       
       // Reset validation states

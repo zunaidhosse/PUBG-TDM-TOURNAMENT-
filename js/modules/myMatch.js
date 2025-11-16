@@ -85,7 +85,6 @@ export function initMyMatch() {
       // Fetch opponent details
       let opponentDetails = null;
       if (opponentName && opponentName.toUpperCase() !== 'TBD') {
-          // Use try/catch in case of network issues, although Firebase handles most reconnects
           try {
              opponentDetails = await getRegistrationByTeamName(opponentName);
           } catch (e) {
@@ -94,9 +93,11 @@ export function initMyMatch() {
       }
       
       const opponentWhatsapp = opponentDetails?.whatsapp?.trim() || null;
+      const opponentDiscord = opponentDetails?.discord?.trim() || null;
+      const opponentTelegram = opponentDetails?.telegram?.trim() || null;
       const opponentGameId = opponentDetails?.gameId || 'N/A';
       
-      // Clean WhatsApp number for link, ensuring country code prefix if possible
+      // Clean WhatsApp number for link
       const cleanedWhatsapp = opponentWhatsapp ? opponentWhatsapp.replace(/[^0-9+]/g, '') : null;
       
       const whatsappHtml = opponentWhatsapp ? 
@@ -106,7 +107,27 @@ export function initMyMatch() {
                 <a href="https://wa.me/${cleanedWhatsapp}?text=Hello, I am ${teamName}. We are matched in the ${roundName} of the tournament. Let's coordinate the match time." target="_blank" rel="noopener">${opponentWhatsapp} 💬</a>
              </span>
            </div>` :
-          `<div class="team-contact-item unavailable"><span>WhatsApp:</span> <span class="contact-value">Unavailable (Opponent did not provide contact details)</span></div>`;
+          `<div class="team-contact-item unavailable"><span>WhatsApp:</span> <span class="contact-value">Not provided</span></div>`;
+
+      const discordHtml = opponentDiscord ?
+          `<div class="team-contact-item">
+             <span>Discord:</span>
+             <span class="contact-value" style="color:#5865F2;">${opponentDiscord} 💬</span>
+           </div>` : '';
+
+      const telegramHtml = opponentTelegram ?
+          `<div class="team-contact-item">
+             <span>Telegram:</span>
+             <span class="contact-value">
+                <a href="https://t.me/${opponentTelegram.replace('@', '')}" target="_blank" rel="noopener" style="color:#0088cc;">${opponentTelegram} 💬</a>
+             </span>
+           </div>` : '';
+
+      const noContactsHtml = (!opponentWhatsapp && !opponentDiscord && !opponentTelegram) ?
+          `<div class="team-contact-item unavailable">
+             <span style="color:#e74c3c;">⚠️ No contact info provided</span>
+             <span class="contact-value">Use tournament group to coordinate</span>
+           </div>` : '';
 
       el.innerHTML = `
         <div class="my-match-card">
@@ -124,17 +145,25 @@ export function initMyMatch() {
             </div>
           </div>
           <div class="match-coordination">
-              <h4 style="color:#3498db; margin-bottom:10px;">Find Your Opponent for Coordination:</h4>
+              <h4 style="color:#3498db; margin-bottom:10px;">🌍 Contact Your Opponent:</h4>
               <div class="team-contact-group">
                 <div class="team-contact-item">
-                  <span>Opponent Team Name:</span>
+                  <span>Opponent Team:</span>
                   <span class="contact-value">${opponentName || 'TBD'}</span>
                 </div>
                 <div class="team-contact-item">
-                  <span>Opponent Game ID:</span>
+                  <span>Game ID:</span>
                   <span class="contact-value game-id-value">${opponentGameId}</span>
                 </div>
                 ${whatsappHtml}
+                ${discordHtml}
+                ${telegramHtml}
+                ${noContactsHtml}
+              </div>
+              <div style="background:rgba(52,152,219,0.15);border:1px solid #3498db;border-radius:8px;padding:12px;margin-top:12px;">
+                <p style="color:#ecf0f1;margin:0;font-size:0.9rem;line-height:1.5;">
+                  💡 <strong>International Players:</strong> Join our tournament Discord/Telegram groups below to coordinate matches easily!
+                </p>
               </div>
           </div>
           <div style="text-align: center; margin-top: 15px;">

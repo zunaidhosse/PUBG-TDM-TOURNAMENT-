@@ -29,6 +29,7 @@ import { initLiveFeed } from './modules/liveFeed.js';
 import { initAchievements } from './modules/achievements.js';
 import { initRoomAccess } from './modules/roomAccess.js';
 import { initTournamentProgress } from './modules/tournamentProgress.js';
+import { initTdmWinners, openTdmWinnersModal } from './modules/tdmWinners.js';
 
 // Section renderers
 import { renderNoticeSection } from './modules/sections/notice.js';
@@ -51,7 +52,7 @@ import { renderMyMatchSection } from './modules/sections/myMatch.js';
 import { renderTeamStatsSection } from './modules/sections/teamStats.js';
 import { renderLiveFeedSection } from './modules/sections/liveFeed.js';
 import { renderAchievementsSection } from './modules/sections/achievements.js';
-import { renderRoomSection } from './modules/sections/room.js';
+// import { renderRoomSection } from './modules/sections/room.js';
 import { renderProgressSection } from './modules/sections/progress.js';
 
 ensureFirebase();
@@ -77,6 +78,8 @@ window.navigateToSection = function(sectionId) {
     console.error('Navigation error:', e);
   }
 };
+
+window.openTdmWinnersModal = openTdmWinnersModal;
 
 window.shareApp = async function() {
   try {
@@ -117,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTeamStatsSection();
   renderLiveFeedSection();
   renderAchievementsSection();
-  renderRoomSection();
+  // remove renderRoomSection();
   renderProgressSection();
   
   // Then initialize functionality
@@ -159,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAchievements();
   initRoomAccess();
   initTournamentProgress();
+  initTdmWinners();
 
   const btn = document.getElementById('install-btn');
   if (btn) btn.addEventListener('click', async () => {

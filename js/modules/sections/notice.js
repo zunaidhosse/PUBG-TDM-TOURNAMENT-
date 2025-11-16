@@ -18,6 +18,7 @@ export function renderNoticeSection() {
             <p id="registration-status">OPEN</p>
         </div>
     </div>
+    <div id="room-access-container" style="margin-bottom: 20px;"></div>
     <div id="prize-pool" class="prize-pool">Loading prize pool...</div>
     <div class="notice-board" id="notice-board">Loading...</div>
   `;

@@ -71,10 +71,16 @@ function renderTeamsList(snapshot) {
     card.className = 'registration-card';
     const badge = team.__sim ? `<span style="font-size:0.7rem; background:rgba(52,152,219,0.25); border:1px solid #3498db; padding:2px 6px; border-radius:999px; margin-left:6px;">Simulated</span>` : '';
     
-    // Enhanced card details: showing Game ID
+    const contactIcons = [];
+    if (team.whatsapp) contactIcons.push('📱');
+    if (team.discord) contactIcons.push('<span style="color:#5865F2;">💬</span>');
+    if (team.telegram) contactIcons.push('<span style="color:#0088cc;">✈️</span>');
+    const contactDisplay = contactIcons.length ? contactIcons.join(' ') : '<span style="color:#95a5a6;">No contact</span>';
+    
     card.innerHTML = `
       <h3>${team.teamName}${badge}</h3>
       <p>Game ID: <span style="font-weight:700;">${team.gameId || 'N/A'}</span></p>
+      <p style="font-size:0.85rem;">Contacts: ${contactDisplay}</p>
       <p>Status: <span style="color: ${team.status === 'Approved' ? '#2ecc71' : '#f39c12'}">${team.status || 'Pending'}</span></p>
     `;
     list.appendChild(card);

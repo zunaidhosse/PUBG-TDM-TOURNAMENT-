@@ -30,17 +30,42 @@ export function initWinnersAdmin() {
     if (!list) return;
     list.innerHTML = '';
     const items = [];
-    snap.forEach(c => items.push({ id:c.key, ...c.val() }));
+    snap.forEach(c => {
+      const data = c.val();
+      if (data && data.image) {
+        items.push({ id: c.key, ...data });
+      }
+    });
     items.sort((a,b)=> (b.timestamp||0)-(a.timestamp||0));
-    items.forEach(w => {
+    
+    if (items.length === 0) {
+      list.innerHTML = '<p class="empty-message">No winners</p>';
+      return;
+    }
+    
+    const scrollContainer = document.createElement('div');
+    scrollContainer.style.maxHeight = '600px';
+    scrollContainer.style.overflowY = 'auto';
+    scrollContainer.style.display = 'flex';
+    scrollContainer.style.flexDirection = 'column';
+    scrollContainer.style.gap = '10px';
+    
+    items.forEach((w, idx) => {
       const div = document.createElement('div');
       div.className = 'registration-card';
-      div.innerHTML = `<img src="${w.image}" style="width:100%;border-radius:6px;margin-bottom:8px;"><h4>🏆 ${w.title}</h4>${w.description?`<p>${w.description}</p>`:''}<button class="btn btn-danger">Remove</button>`;
+      div.innerHTML = `
+        <img src="${w.image}" style="width:100%;max-height:150px;object-fit:cover;border-radius:6px;margin-bottom:8px;">
+        <h4>${idx + 1}. 🏆 ${w.title}</h4>
+        ${w.description ? `<p style="margin:6px 0;">${w.description}</p>` : ''}
+        <button class="btn btn-danger">Remove</button>
+      `;
       div.querySelector('.btn-danger').addEventListener('click', () => {
         db().ref('winners/'+w.id).remove().then(()=> toast('success','Removed')).catch(()=> toast('danger','Remove failed'));
       });
-      list.appendChild(div);
+      scrollContainer.appendChild(div);
     });
+    
+    list.appendChild(scrollContainer);
   });
 }
 
