@@ -106,8 +106,6 @@ export function initTeamsAdmin() {
       
       const contactsHtml = [];
       if (team.whatsapp) contactsHtml.push(`📱 ${team.whatsapp}`);
-      if (team.discord) contactsHtml.push(`<span style="color:#5865F2;">💬 ${team.discord}</span>`);
-      if (team.telegram) contactsHtml.push(`<span style="color:#0088cc;">✈️ ${team.telegram}</span>`);
       const contactsDisplay = contactsHtml.length ? contactsHtml.join(' • ') : '<span style="color:#95a5a6;">No contacts</span>';
       
       card.innerHTML = `

@@ -1,9 +1,8 @@
 import { db } from '../core/firebase.js';
 
-let currentFilter = 'All'; // 'All', 'Approved', 'Pending'
+let currentFilter = 'All';
 let lastSnapshot = null;
 
-// Helper to read simulated teams persisted in localStorage
 function getSimulated() {
   try {
     const raw = localStorage.getItem('simulatedTeams');
@@ -28,7 +27,6 @@ function renderTeamsList(snapshot) {
   const items = [];
   snapshot.forEach(child => items.push({ ...child.val(), id: child.key, __sim: false }));
 
-  // Merge in simulated teams (frontend-only), visible to user panel as well
   const sim = getSimulated();
   const merged = [...items, ...sim];
   
@@ -42,21 +40,17 @@ function renderTeamsList(snapshot) {
 
   let view = merged;
   
-  // 1. Apply status filter
   if (currentFilter === 'Approved') {
       view = view.filter(t => t.status === 'Approved');
   } else if (currentFilter === 'Pending') {
       view = view.filter(t => t.status !== 'Approved');
   }
   
-  // 2. Apply search filter
   const query = (document.getElementById('teams-search')?.value || '').toLowerCase();
   if (query) {
-      // Search in teamName and gameId
       view = view.filter(t => ((t.teamName||'')+(t.gameId||'')).toLowerCase().includes(query));
   }
 
-  // Sort by registeredAt desc for consistency
   view.sort((a,b)=> (b.registeredAt||0)-(a.registeredAt||0));
 
   if (sim.length) {
@@ -66,41 +60,83 @@ function renderTeamsList(snapshot) {
     list.appendChild(simBanner);
   }
 
-  view.forEach(team => {
+  if (view.length === 0) {
+    list.innerHTML = '<p class="empty-message">No teams found matching current criteria</p>';
+    return;
+  }
+
+  view.forEach((team, idx) => {
     const card = document.createElement('div');
-    card.className = 'registration-card';
-    const badge = team.__sim ? `<span style="font-size:0.7rem; background:rgba(52,152,219,0.25); border:1px solid #3498db; padding:2px 6px; border-radius:999px; margin-left:6px;">Simulated</span>` : '';
+    const isApproved = team.status === 'Approved';
+    card.className = `team-card ${isApproved ? 'team-approved' : 'team-pending'}`;
+    
+    const rank = idx + 1;
+    const rankBadge = rank <= 3 ? 
+      `<div class="team-rank-badge rank-${rank}">${rank === 1 ? '🥇' : rank === 2 ? '🥈' : '🥉'}</div>` :
+      `<div class="team-rank-badge">#{rank}</div>`;
+    
+    const statusBadge = isApproved ?
+      `<div class="team-status-badge status-approved">✅ Approved</div>` :
+      `<div class="team-status-badge status-pending">⏳ Pending</div>`;
     
     const contactIcons = [];
-    if (team.whatsapp) contactIcons.push('📱');
-    if (team.discord) contactIcons.push('<span style="color:#5865F2;">💬</span>');
-    if (team.telegram) contactIcons.push('<span style="color:#0088cc;">✈️</span>');
-    const contactDisplay = contactIcons.length ? contactIcons.join(' ') : '<span style="color:#95a5a6;">No contact</span>';
+    if (team.whatsapp) contactIcons.push('<span class="contact-icon contact-whatsapp" title="WhatsApp">📱</span>');
+    const contactDisplay = contactIcons.length ? 
+      `<div class="team-contacts">${contactIcons.join('')}</div>` : 
+      '<div class="team-contacts"><span class="no-contact">No contact info</span></div>';
+    
+    const simBadge = team.__sim ? '<span class="sim-badge">SIM</span>' : '';
+    
+    const registeredDate = team.registeredAt ? 
+      new Date(team.registeredAt).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      }) : 'Recent';
     
     card.innerHTML = `
-      <h3>${team.teamName}${badge}</h3>
-      <p>Game ID: <span style="font-weight:700;">${team.gameId || 'N/A'}</span></p>
-      <p style="font-size:0.85rem;">Contacts: ${contactDisplay}</p>
-      <p>Status: <span style="color: ${team.status === 'Approved' ? '#2ecc71' : '#f39c12'}">${team.status || 'Pending'}</span></p>
+      ${rankBadge}
+      <div class="team-card-header">
+        <div class="team-name-section">
+          <div class="team-name">${team.teamName}${simBadge}</div>
+          <div class="team-game-id">
+            <span class="game-id-icon">🆔</span>
+            <span class="game-id-value">${team.gameId || 'N/A'}</span>
+          </div>
+        </div>
+        ${statusBadge}
+      </div>
+      <div class="team-card-body">
+        <div class="team-meta-row">
+          <div class="team-meta-item">
+            <span class="meta-label">Registered</span>
+            <span class="meta-value">${registeredDate}</span>
+          </div>
+          <div class="team-meta-item">
+            <span class="meta-label">Contact</span>
+            ${contactDisplay}
+          </div>
+        </div>
+      </div>
+      <div class="team-card-footer">
+        <div class="team-power-bar ${isApproved ? 'bar-approved' : 'bar-pending'}">
+          <div class="power-fill"></div>
+        </div>
+      </div>
     `;
+    
     list.appendChild(card);
   });
-
-  if (view.length === 0) list.innerHTML = '<p class="empty-message">No teams found matching current criteria</p>';
 }
 
 export function initTeams() {
-  // Initial subscription to registrations
   db().ref('registrations').on('value', renderTeamsList);
 
-  // Setup search input listener
   const ts = document.getElementById('teams-search');
   if (ts) ts.addEventListener('input', () => {
-    // Rerun render function with cached snapshot
     if (lastSnapshot) renderTeamsList(lastSnapshot);
   });
   
-  // Setup filter button listeners
   const filters = document.getElementById('team-status-filters');
   if (filters) {
       filters.querySelectorAll('.btn-filter').forEach(btn => {

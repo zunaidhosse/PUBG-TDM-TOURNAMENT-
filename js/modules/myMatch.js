@@ -93,8 +93,6 @@ export function initMyMatch() {
       }
       
       const opponentWhatsapp = opponentDetails?.whatsapp?.trim() || null;
-      const opponentDiscord = opponentDetails?.discord?.trim() || null;
-      const opponentTelegram = opponentDetails?.telegram?.trim() || null;
       const opponentGameId = opponentDetails?.gameId || 'N/A';
       
       // Clean WhatsApp number for link
@@ -109,21 +107,7 @@ export function initMyMatch() {
            </div>` :
           `<div class="team-contact-item unavailable"><span>WhatsApp:</span> <span class="contact-value">Not provided</span></div>`;
 
-      const discordHtml = opponentDiscord ?
-          `<div class="team-contact-item">
-             <span>Discord:</span>
-             <span class="contact-value" style="color:#5865F2;">${opponentDiscord} 💬</span>
-           </div>` : '';
-
-      const telegramHtml = opponentTelegram ?
-          `<div class="team-contact-item">
-             <span>Telegram:</span>
-             <span class="contact-value">
-                <a href="https://t.me/${opponentTelegram.replace('@', '')}" target="_blank" rel="noopener" style="color:#0088cc;">${opponentTelegram} 💬</a>
-             </span>
-           </div>` : '';
-
-      const noContactsHtml = (!opponentWhatsapp && !opponentDiscord && !opponentTelegram) ?
+      const noContactsHtml = (!opponentWhatsapp) ?
           `<div class="team-contact-item unavailable">
              <span style="color:#e74c3c;">⚠️ No contact info provided</span>
              <span class="contact-value">Use tournament group to coordinate</span>
@@ -156,13 +140,12 @@ export function initMyMatch() {
                   <span class="contact-value game-id-value">${opponentGameId}</span>
                 </div>
                 ${whatsappHtml}
-                ${discordHtml}
-                ${telegramHtml}
                 ${noContactsHtml}
               </div>
               <div style="background:rgba(52,152,219,0.15);border:1px solid #3498db;border-radius:8px;padding:12px;margin-top:12px;">
                 <p style="color:#ecf0f1;margin:0;font-size:0.9rem;line-height:1.5;">
-                  💡 <strong>International Players:</strong> Join our tournament Discord/Telegram groups below to coordinate matches easily!
+                  💡 <strong>ম্যাচ সমন্বয়:</strong> প্রতিপক্ষের WhatsApp এ যোগাযোগ করে ম্যাচের সময় ঠিক করুন।
+                  <br>Coordinate via WhatsApp to schedule your match time.
                 </p>
               </div>
           </div>

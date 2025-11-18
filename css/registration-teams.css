@@ -1,0 +1,314 @@
+/* Registered Teams Section & Team Cards (extracted from registration.css) */
+
+/* Teams Section Header */
+.teams-section-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.teams-subtitle {
+  color: #95a5a6;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+
+.teams-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+/* Enhanced Team Cards */
+.teams-roster {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.team-card {
+  position: relative;
+  background: linear-gradient(145deg, rgba(26, 26, 46, 0.95), rgba(18, 18, 28, 0.9));
+  border-radius: 16px;
+  padding: 20px;
+  border: 2px solid transparent;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.team-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #3498db, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.team-card:hover::before {
+  opacity: 1;
+}
+
+.team-card.team-approved {
+  border-color: rgba(46, 204, 113, 0.4);
+  background: linear-gradient(145deg, rgba(26, 26, 46, 0.95), rgba(22, 38, 28, 0.9));
+}
+
+.team-card.team-approved::before {
+  background: linear-gradient(90deg, transparent, #2ecc71, transparent);
+}
+
+.team-card.team-pending {
+  border-color: rgba(243, 156, 18, 0.3);
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+.team-card.team-approved:hover {
+  box-shadow: 0 12px 32px rgba(46, 204, 113, 0.2);
+  border-color: rgba(46, 204, 113, 0.6);
+}
+
+/* Rank Badge */
+.team-rank-badge {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  background: linear-gradient(135deg, #34495e, #2c3e50);
+  color: #ecf0f1;
+  font-weight: 900;
+  font-size: 1.1rem;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 2px solid rgba(52, 152, 219, 0.5);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.team-rank-badge.rank-1 {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  border-color: #f1c40f;
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.5);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.team-rank-badge.rank-2 {
+  background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+  border-color: #bdc3c7;
+}
+
+.team-rank-badge.rank-3 {
+  background: linear-gradient(135deg, #cd7f32, #a0522d);
+  border-color: #d4af37;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+/* Team Card Header */
+.team-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.team-name-section {
+  flex: 1;
+}
+
+.team-name {
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #ecf0f1;
+  margin-bottom: 6px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sim-badge {
+  font-size: 0.65rem;
+  background: rgba(52, 152, 219, 0.3);
+  border: 1px solid #3498db;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.team-game-id {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(52, 152, 219, 0.3);
+  width: fit-content;
+}
+
+.game-id-icon {
+  font-size: 0.9rem;
+}
+
+.game-id-value {
+  color: #3498db;
+  font-weight: 800;
+  font-family: monospace;
+  font-size: 0.95rem;
+}
+
+/* Status Badge */
+.team-status-badge {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.status-approved {
+  background: rgba(46, 204, 113, 0.2);
+  border: 2px solid #2ecc71;
+  color: #2ecc71;
+}
+
+.status-pending {
+  background: rgba(243, 156, 18, 0.2);
+  border: 2px solid #f39c12;
+  color: #f39c12;
+}
+
+/* Team Card Body */
+.team-card-body {
+  margin-top: 15px;
+}
+
+.team-meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.team-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-label {
+  font-size: 0.75rem;
+  color: #95a5a6;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.meta-value {
+  color: #ecf0f1;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Contact Icons */
+.team-contacts {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.contact-icon {
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.contact-icon:hover {
+  transform: scale(1.2);
+}
+
+.contact-whatsapp {
+  filter: drop-shadow(0 0 4px rgba(37, 211, 102, 0.6));
+}
+
+.contact-discord {
+  filter: drop-shadow(0 0 4px rgba(88, 101, 242, 0.6));
+}
+
+.contact-telegram {
+  filter: drop-shadow(0 0 4px rgba(0, 136, 204, 0.6));
+}
+
+.no-contact {
+  font-size: 0.8rem;
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+/* Team Card Footer */
+.team-card-footer {
+  margin-top: 15px;
+}
+
+.team-power-bar {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(52, 152, 219, 0.2);
+}
+
+.power-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  border-radius: 999px;
+  animation: powerFlow 2s ease-in-out infinite;
+}
+
+.bar-approved .power-fill {
+  background: linear-gradient(90deg, #2ecc71, #27ae60);
+}
+
+.bar-pending .power-fill {
+  background: linear-gradient(90deg, #f39c12, #e67e22);
+  width: 70%;
+}
+
+@keyframes powerFlow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .teams-roster {
+    grid-template-columns: 1fr;
+  }
+
+  .teams-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-buttons {
+    justify-content: center;
+  }
+}

@@ -12,7 +12,7 @@ export function renderTeams() {
         <button class="btn btn-danger" id="delete-all-btn">Delete All</button>
       </div>
     </div>
-    <p style="color:#95a5a6;margin-top:8px;font-size:0.9rem;">💡 Players now provide Discord/Telegram contacts for international coordination</p>
+    <p style="color:#95a5a6;margin-top:8px;font-size:0.9rem;">💡 Players provide WhatsApp contact for coordination</p>
     <div class="registrations-list" id="registrations-list"></div>
   `;
 }

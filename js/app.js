@@ -5,7 +5,7 @@ import { initCutGuard } from './modules/cutGuard.js';
 import { initBanner } from './modules/banner.js';
 import { initNotice } from './modules/notice.js';
 import { initSettings } from './modules/settings.js';
-import { initRegistration } from './modules/registration.js';
+import { initRegistration } from './modules/registration/index.js';
 import { initTeams } from './modules/teams.js';
 import { initMatches } from './modules/matches.js';
 import { initRoadmap } from './modules/roadmap.js';
@@ -30,6 +30,7 @@ import { initAchievements } from './modules/achievements.js';
 import { initRoomAccess } from './modules/roomAccess.js';
 import { initTournamentProgress } from './modules/tournamentProgress.js';
 import { initTdmWinners, openTdmWinnersModal } from './modules/tdmWinners.js';
+import { showToast } from './modules/ui/toast.js';
 
 // Section renderers
 import { renderNoticeSection } from './modules/sections/notice.js';
@@ -52,7 +53,6 @@ import { renderMyMatchSection } from './modules/sections/myMatch.js';
 import { renderTeamStatsSection } from './modules/sections/teamStats.js';
 import { renderLiveFeedSection } from './modules/sections/liveFeed.js';
 import { renderAchievementsSection } from './modules/sections/achievements.js';
-// import { renderRoomSection } from './modules/sections/room.js';
 import { renderProgressSection } from './modules/sections/progress.js';
 
 ensureFirebase();
@@ -67,6 +67,13 @@ window.navigateToSection = function(sectionId) {
     const target = document.getElementById(sectionId);
     if (target) {
       target.classList.add('active');
+      // Smooth scroll to top of section on mobile
+      setTimeout(() => {
+        const container = document.querySelector('.container');
+        if (container && window.innerWidth <= 768) {
+          container.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }, 100);
     }
     
     // Also activate corresponding nav button
@@ -85,15 +92,21 @@ window.shareApp = async function() {
   try {
     const url = 'https://i.postimg.cc/CMJPVMpn/Appsshare.png';
     window.open(url, '_blank');
+    showToast('Opening share image...', 'success');
   } catch (e) {
     console.error('Share error:', e);
+    showToast('Failed to open share link', 'error');
   }
 };
 
 let deferredPrompt = null;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault(); deferredPrompt = e;
-  const btn = document.getElementById('install-btn'); if (btn) btn.style.display = 'inline-block';
+  const btn = document.getElementById('install-btn'); 
+  if (btn) {
+    btn.style.display = 'inline-block';
+    showToast('App can be installed! Check top-right button', 'info', 6000);
+  }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -120,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTeamStatsSection();
   renderLiveFeedSection();
   renderAchievementsSection();
-  // remove renderRoomSection();
   renderProgressSection();
   
   // Then initialize functionality
@@ -167,7 +179,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('install-btn');
   if (btn) btn.addEventListener('click', async () => {
     if (!deferredPrompt) return;
-    deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt = null; btn.style.display = 'none';
+    deferredPrompt.prompt(); 
+    const result = await deferredPrompt.userChoice;
+    if (result.outcome === 'accepted') {
+      showToast('App installed successfully!', 'success');
+    }
+    deferredPrompt = null; 
+    btn.style.display = 'none';
   });
 
   const ucBtn = document.getElementById('uc-header-btn');
@@ -181,10 +199,20 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('UC navigation error:', e);
     }
   });
+
+  // Show welcome toast
+  setTimeout(() => {
+    const username = localStorage.getItem('username');
+    if (username) {
+      showToast(`Welcome back, ${username}! 🎮`, 'success', 3000);
+    }
+  }, 1000);
 });
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(() => console.log('Service Worker registered'))
+      .catch(() => console.log('Service Worker registration failed'));
   });
 }
