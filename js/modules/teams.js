@@ -3,15 +3,6 @@ import { db } from '../core/firebase.js';
 let currentFilter = 'All';
 let lastSnapshot = null;
 
-function getSimulated() {
-  try {
-    const raw = localStorage.getItem('simulatedTeams');
-    const data = raw ? JSON.parse(raw) : [];
-    if (Array.isArray(data)) return data.map(t => ({ ...t, __sim: true }));
-  } catch {}
-  return [];
-}
-
 function renderTeamsList(snapshot) {
   if (!snapshot) return;
   lastSnapshot = snapshot;
@@ -25,40 +16,32 @@ function renderTeamsList(snapshot) {
 
   list.innerHTML = '';
   const items = [];
-  snapshot.forEach(child => items.push({ ...child.val(), id: child.key, __sim: false }));
-
-  const sim = getSimulated();
-  const merged = [...items, ...sim];
+  snapshot.forEach(child => items.push({ ...child.val(), id: child.key }));
   
-  const total = merged.length;
-  const approved = merged.filter(t => t.status === 'Approved').length;
+  const total = items.length;
+  const approved = items.filter(t => t.status === 'Approved').length;
   const pending = total - approved;
   
   if (tEl) tEl.textContent = total;
   if (aEl) aEl.textContent = approved;
   if (pEl) pEl.textContent = pending;
 
-  let view = merged;
+  let view = items;
   
+  // Apply filter
   if (currentFilter === 'Approved') {
       view = view.filter(t => t.status === 'Approved');
   } else if (currentFilter === 'Pending') {
       view = view.filter(t => t.status !== 'Approved');
   }
   
+  // Apply search
   const query = (document.getElementById('teams-search')?.value || '').toLowerCase();
   if (query) {
       view = view.filter(t => ((t.teamName||'')+(t.gameId||'')).toLowerCase().includes(query));
   }
 
   view.sort((a,b)=> (b.registeredAt||0)-(a.registeredAt||0));
-
-  if (sim.length) {
-    const simBanner = document.createElement('div');
-    simBanner.className = 'alert alert-success';
-    simBanner.textContent = 'Includes simulated teams for testing';
-    list.appendChild(simBanner);
-  }
 
   if (view.length === 0) {
     list.innerHTML = '<p class="empty-message">No teams found matching current criteria</p>';
@@ -85,8 +68,6 @@ function renderTeamsList(snapshot) {
       `<div class="team-contacts">${contactIcons.join('')}</div>` : 
       '<div class="team-contacts"><span class="no-contact">No contact info</span></div>';
     
-    const simBadge = team.__sim ? '<span class="sim-badge">SIM</span>' : '';
-    
     const registeredDate = team.registeredAt ? 
       new Date(team.registeredAt).toLocaleDateString('en-GB', {
         day: '2-digit',
@@ -98,7 +79,7 @@ function renderTeamsList(snapshot) {
       ${rankBadge}
       <div class="team-card-header">
         <div class="team-name-section">
-          <div class="team-name">${team.teamName}${simBadge}</div>
+          <div class="team-name">${team.teamName}</div>
           <div class="team-game-id">
             <span class="game-id-icon">🆔</span>
             <span class="game-id-value">${team.gameId || 'N/A'}</span>
@@ -130,13 +111,18 @@ function renderTeamsList(snapshot) {
 }
 
 export function initTeams() {
+  // Real-time Firebase listener
   db().ref('registrations').on('value', renderTeamsList);
 
+  // Search functionality
   const ts = document.getElementById('teams-search');
-  if (ts) ts.addEventListener('input', () => {
-    if (lastSnapshot) renderTeamsList(lastSnapshot);
-  });
+  if (ts) {
+    ts.addEventListener('input', () => {
+      if (lastSnapshot) renderTeamsList(lastSnapshot);
+    });
+  }
   
+  // Filter buttons
   const filters = document.getElementById('team-status-filters');
   if (filters) {
       filters.querySelectorAll('.btn-filter').forEach(btn => {
