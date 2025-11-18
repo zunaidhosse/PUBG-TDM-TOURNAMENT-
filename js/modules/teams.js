@@ -15,8 +15,17 @@ function renderTeamsList(snapshot) {
   if (!list) return;
 
   list.innerHTML = '';
+  
+  // Build items array from snapshot
   const items = [];
-  snapshot.forEach(child => items.push({ ...child.val(), id: child.key }));
+  if (snapshot.exists()) {
+    snapshot.forEach(child => {
+      const data = child.val();
+      if (data) {
+        items.push({ ...data, id: child.key });
+      }
+    });
+  }
   
   const total = items.length;
   const approved = items.filter(t => t.status === 'Approved').length;
@@ -47,6 +56,9 @@ function renderTeamsList(snapshot) {
     list.innerHTML = '<p class="empty-message">No teams found matching current criteria</p>';
     return;
   }
+
+  // Create a document fragment for better performance
+  const fragment = document.createDocumentFragment();
 
   view.forEach((team, idx) => {
     const card = document.createElement('div');
@@ -106,12 +118,16 @@ function renderTeamsList(snapshot) {
       </div>
     `;
     
-    list.appendChild(card);
+    fragment.appendChild(card);
   });
+  
+  // Append all cards at once
+  list.appendChild(fragment);
 }
 
 export function initTeams() {
-  // Real-time Firebase listener
+  // Clear any existing listener first, then set up real-time Firebase listener
+  db().ref('registrations').off();
   db().ref('registrations').on('value', renderTeamsList);
 
   // Search functionality

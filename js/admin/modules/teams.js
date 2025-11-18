@@ -2,32 +2,44 @@ import { db } from '../../core/firebase.js';
 import { toast } from './toast.js';
 
 export function initTeamsAdmin() {
-  // Real-time registrations listener
+  // Real-time registrations listener - ensure we get all data
+  db().ref('registrations').off(); // Clear any existing listeners first
   db().ref('registrations').on('value', snap => {
     const list = document.getElementById('registrations-list');
     if (!list) return;
     
     list.innerHTML = '';
+    
+    // Build items array from snapshot
     const items = [];
-    snap.forEach(c => items.push({ id: c.key, ...c.val() }));
+    if (snap.exists()) {
+      snap.forEach(child => {
+        const data = child.val();
+        if (data) {
+          items.push({ id: child.key, ...data });
+        }
+      });
+    }
     
-    const total = items.length;
-    const approved = items.filter(t => t.status === 'Approved').length;
-    const pending = items.filter(t => t.status !== 'Approved').length;
-    
-    const tEl = document.getElementById('total-teams');
-    const aEl = document.getElementById('approved-teams');
-    const pEl = document.getElementById('pending-teams');
-    if (tEl) tEl.textContent = total;
-    if (aEl) aEl.textContent = approved;
-    if (pEl) pEl.textContent = pending;
-
-    items.sort((a,b)=> (b.registeredAt||0)-(a.registeredAt||0));
+    // Sort: Pending first (newest), then Approved (newest)
+    items.sort((a, b) => {
+      const aStatus = a.status === 'Approved' ? 1 : 0;
+      const bStatus = b.status === 'Approved' ? 1 : 0;
+      
+      if (aStatus !== bStatus) {
+        return aStatus - bStatus; // Pending (0) comes before Approved (1)
+      }
+      
+      return (b.registeredAt || 0) - (a.registeredAt || 0); // Newest first within each group
+    });
     
     if (items.length === 0) {
       list.innerHTML = '<p class="empty-message">No registrations yet</p>';
       return;
     }
+    
+    // Create a document fragment for better performance
+    const fragment = document.createDocumentFragment();
     
     items.forEach((team, idx) => {
       const card = document.createElement('div');
@@ -53,38 +65,59 @@ export function initTeamsAdmin() {
         <p style="font-size:0.85rem;margin:4px 0;">${contactsDisplay}</p>
         <p style="font-size:0.8rem;color:#95a5a6;margin:8px 0 0;">Registered: ${dateStr}</p>
         <div style="display:flex;gap:8px;margin-top:12px;">
-          <button class="btn btn-success approve-btn" ${isApproved ? 'disabled' : ''}>
+          <button class="btn btn-success approve-btn" data-team-id="${team.id}" ${isApproved ? 'disabled' : ''}>
             ${isApproved ? 'Already Approved' : 'Approve'}
           </button>
-          <button class="btn btn-danger delete-btn">Delete</button>
+          <button class="btn btn-danger delete-btn" data-team-id="${team.id}">Delete</button>
         </div>
       `;
       
-      const approveBtn = card.querySelector('.approve-btn');
-      const deleteBtn = card.querySelector('.delete-btn');
-      
-      if (!isApproved) {
-        approveBtn.addEventListener('click', async () => {
+      fragment.appendChild(card);
+    });
+    
+    // Append all cards at once
+    list.appendChild(fragment);
+    
+    // Attach event listeners after all cards are added
+    list.querySelectorAll('.approve-btn').forEach(btn => {
+      if (!btn.disabled) {
+        btn.addEventListener('click', async (e) => {
+          const teamId = e.target.getAttribute('data-team-id');
+          const teamRef = db().ref('registrations/' + teamId);
+          
           try {
-            await db().ref('registrations/'+team.id).update({ status: 'Approved' });
-            toast('success', `${team.teamName} approved`);
+            // First get the team data to show name in toast
+            const teamSnap = await teamRef.once('value');
+            const teamData = teamSnap.val();
+            
+            await teamRef.update({ status: 'Approved' });
+            toast('success', `${teamData?.teamName || 'Team'} approved`);
           } catch (e) {
+            console.error('Approval error:', e);
             toast('danger', 'Failed to approve');
           }
         });
       }
-      
-      deleteBtn.addEventListener('click', async () => {
-        if (!confirm(`Delete registration for ${team.teamName}?`)) return;
+    });
+    
+    list.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const teamId = e.target.getAttribute('data-team-id');
+        const teamRef = db().ref('registrations/' + teamId);
+        
         try {
-          await db().ref('registrations/'+team.id).remove();
+          const teamSnap = await teamRef.once('value');
+          const teamData = teamSnap.val();
+          
+          if (!confirm(`Delete registration for ${teamData?.teamName || 'this team'}?`)) return;
+          
+          await teamRef.remove();
           toast('success', 'Registration deleted');
         } catch (e) {
+          console.error('Delete error:', e);
           toast('danger', 'Failed to delete');
         }
       });
-      
-      list.appendChild(card);
     });
   });
 
